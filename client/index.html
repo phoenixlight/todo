@@ -1,0 +1,214 @@
+<html>
+	<head>
+		<title> Basic Todo List </title>
+<!-- 
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+<style>
+
+		body {
+    		font-family: 	"Comic Sans MS", cursive, sans-serif;
+			font-family: 	"Arial", Helvetica, sans-serif;
+			}
+
+		ul {
+			list-style-type : none;
+			margin-left: -40px;
+			/*border-style: solid;*/
+		}
+
+		td {
+			border-style: outset;
+			 overflow: hidden;
+		}
+
+		table
+			{
+			    table-layout: fixed;
+			    width: 800px;
+			    overflow: hidden;
+			}
+</style>
+
+		<!-- loading CDNS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<!-- <script src="https://code.angularjs.org/1.5.5/angular.js"></script> -->
+		<script src="app.js"></script>  <!-- 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+ -->
+	</head>
+
+
+	<body onload="displayTodos()">
+
+		<h1>THINGS WE NEED TO DO!</h1>
+
+
+		<form>
+		<input name="task" id="name" placeholder="add new todo"> </input>
+		<button onclick="submitTodo()" id="name"> SUBMIT </button>
+		<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
+		</form>
+
+		<a href="/api/todos"> Click here to go to api </a>
+		<br> <br>
+
+		<!-- todo list table headers -->
+		<table id="todoTable" cellspacing="0">
+			<tr>
+				<td> Delete? </td>
+				<td> Task </td>
+				<td> Edit </td>
+				<td> Submit Change </td>
+			</tr>
+		</table>
+
+		<ul id="todoList"></ul>
+		
+		<div id="testTable"> </div>
+		<script>
+
+		//this function posts given data to api/database
+		// POST REQUEST
+			function submitTodo(){
+				data2 = $('form').serialize();
+				//sending form data2
+				$.post("api/todos", data2, function(data) {
+			
+					console.log("created todo!");
+					return false;
+					});
+
+				// $('#todoList').empty();
+				displayTodos();
+
+				};
+
+		//this function is run every time that a li (*span) element is clicked. 
+		//sends a DELETE request to our api
+			function delfunc(item){
+				var idStr = item.id;
+				console.log(item);
+				console.log(item.id);
+				$.ajax({
+					url: '/api/todos/' + idStr,
+					type: 'DELETE',
+					success: function() {
+						console.log('deleted!');
+					}
+				});
+			
+			// remove current contentes of todo list from web page, then re-display the updated list (with delete)
+			displayTodos();2
+			};
+
+		//This function displayTodos on webpage and is activated during intial load.
+			function displayTodos(){
+				// $('#todoList').append('<ul>');
+				$.get("/api/todos", function(data, status) {
+					//ON success of GET request, append each todo to an area of the web page in list format 
+					
+					var table = document.getElementById("todoTable");
+
+					$("#todoTable tr").remove(); 
+					//add the headers
+					row = table.insertRow(0);
+					
+					var cell0 = row.insertCell(0);
+					var cell1 = row.insertCell(1);
+					var cell2 = row.insertCell(2);
+					var cell3 = row.insertCell(3);
+
+
+					cell0.innerHTML = "Delete";
+					cell1.innerHTML = "Task";
+					cell2.innerHTML = "Edit";
+					cell3.innerHTML = "Submit";
+					//add data
+						
+						var i;
+						for (i = 0; i < data.length; i++) {
+							var row = table.insertRow(i+1);
+
+							var cell0 = row.insertCell(0);
+							var cell1 = row.insertCell(1);
+							var cell2 = row.insertCell(2);
+							var cell3 = row.insertCell(3);
+
+							console.log(data[i]);
+
+							// Add some text to the new cells:
+							cell0.innerHTML = "<span onClick='delfunc(this)'  id='" + data[i]._id + "'>" + "  X  </span>"
+							cell1.innerHTML = "<span id='" + data[i]._id + "'>" + data[i].task + "</span>"
+							cell2.innerHTML = "<input id='"+ data[i]._id + "' data-userid='" + data[i]._id + "'>" + "</input>"
+							cell3.innerHTML = "<input type='submit' value='Submit' onclick='editTodo(this)' id='" + data[i]._id +  "'></input>"
+						}
+						
+					// $.each(data, function(){
+						// USING STRING Concatenation
+						// $('#todoTable').append(
+							// //start of list element 
+							// "<li>" +
+
+							// // defines the clickable x which triggers delete function
+							// //contained within span to define a smaller clickcable width
+							// "<span onClick='delfunc(this)'  id='" + this._id + "'>" + "  X  </span>" +
+
+							// //defines the display of the todo element task itself
+							// "<span id='" + this._id + "'>" + this.task + "</span>" +
+
+							// //defines input text box
+							// "<input size='100%' id='"+ this._id + "' data-userid='" + this._id + "'>" + "</input>" + 
+
+							// //defines the submit button
+							// "<input type='submit' value='Submit' onclick='editTodo(this)' id='" + this._id +  "'></input>" +
+
+							// //end of list element
+							// "</li>");
+					// });
+					
+				});
+			
+			};
+
+
+		//EDIT a todo by double clicking
+			function editTodo(item){
+	
+				 	console.log(item.id);
+					console.log($(item).attr('data-userid'));
+					console.log($(item).val());
+
+
+					console.log("over here  " + $("[data-userid='"+ item.id + "']").val());
+
+					// selecting for the input field with a data attribute equal to the id of the submit button and grabbing its new value to update the task with
+					var newValue = $("[data-userid='"+ item.id + "']").val();
+
+			    	update = {
+			    		"task" : newValue
+			    	}
+
+			    	var upd = true;
+
+			    	if (upd) {
+				    	$.ajax({
+							url: '/api/todos/' + item.id,
+							type: 'PUT',
+							data: update,
+							success: function() {
+								console.log('updated!');
+							}
+						});
+
+					}
+
+
+			   $('#todoList').empty();
+			   displayTodos();
+			};
+		   
+
+		</script>
+
+	</body>
+</html> 
