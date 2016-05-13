@@ -95,7 +95,7 @@
 							+  "'>" + "</input>" + 
 
 							//defines the submit button **Add left padding**
-							"<button style='display:none; margin-left: 70%; position:relative' type='button' class='btn btn-success btn-sm' onclick='editTodo(this)' id='" + this._id +  
+							"<button style='display:none; margin-left: 71%; position:relative' type='button' class='btn btn-success btn-sm' onclick='editTodo(this)' id='" + this._id +  
 
 							"' data-showid2='" + this._id 
 

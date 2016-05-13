@@ -70,23 +70,26 @@
 
 		</div>
 
-
+			<div style="margin-bottom: 50px;" class='bs-example'>
+			 <form class='create' onSubmit="return false">
+			<input style="margin-left: 175px;" name="task" id="name" placeholder="add new todo"> 
+			<!-- <button onclick="submitTodo()" id="name"> Submit </button> -->
+			<!-- <a  style='padding-left:0px;' onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a> -->
+			<button type="button" onclick="submitTodo()" class="btn btn-success btn-sm">Create</button>
+			<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
+			</form></div>	
 		<!-- using list group instead of tables here -->
 		<!-- <div class='bs-example'> -->
-		<div class="panel panel-default bs-example">
-			<div class="panel-heading"> Create</div>
-			<div class="panel-body"> <form class='create' onSubmit="return false">
-			<input style='padding-left:0px;' name="task" id="name" placeholder="add new todo"> 
-			<!-- <button onclick="submitTodo()" id="name"> Submit </button> -->
-			<a onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a>
-			<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
-			</form>
+		<!-- <div class="panel panel-default bs-example"> -->
+			<!-- <div class="panel-heading" style='text-align:center;'> Simple Todo List</div> -->
+			<!-- <div class="panel-body"> -->
 
-			<a style="text-align:center;" href="/api/todos"> Click here to go to api </a></div>
-			<ul id="todoList" class="list-group"></ul>
-			<ul id="todoList2" class="list-group"></ul>
+			
+			<!-- <small><a style="margin-left:195px; display:inline-block" href="/api/todos"> Click here to go to api </a></small> -->
+			<ul id="todoList" class="list-group bs-example"></ul>
+			<!-- <ul id="todoList2" class="list-group"></ul> -->
 		<!-- </div> -->
-		</div>
+		<!-- </div> -->
 		<div id="testTable"> </div>
 		</body>
 </html> 

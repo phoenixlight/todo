@@ -30,13 +30,16 @@ input{
 			    overflow: hidden;*/
 			}
 
+form {
+	display: inline;
+}
 	.list-group{
-		width: 500px;
+		width: 100%;
 	}
 
     .bs-example{
 	    margin: auto;
-		width:40%;
+		width:50%;
     }
 
     .create{
