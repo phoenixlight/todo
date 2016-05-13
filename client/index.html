@@ -30,27 +30,36 @@
 </div>
 
 <!--lol youtube vid -->
-
+<!-- 	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-4">
+			<form onSubmit="return false"> 
+			<input type="text">
+			</form>
+		</div>
+	</div> -->
 
 
 		<!-- todo list table headers -->
 	
-		<!-- our table -->
-		<div class="row">
-		<div class="col-md-4"></div>
-			<div class="col-md-4">
-			<form onSubmit="return false">
-			<input name="task" id="name" placeholder="add new todo"> </input>
-			<!-- <button onclick="submitTodo()" id="name"> Submit </button> -->
-			<a onclick="submitTodo()" href="#" class="btn btn-success btn-sm">Submit</a>
-			<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
+		<!-- SUBMIT FORM FOR NEW TODO -->
+	<!-- 	
+  <div class="panel panel-default create">
+  <div class="panel-body">
+    
+			<form class='create' onSubmit="return false">
+			<input style='padding-left:0px;' name="task" id="name" placeholder="add new todo"> 
+			<button onclick="submitTodo()" id="name"> Submit </button>
+			<a onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a>
+				<input type="submit" value="Submit" onclick="submitTodo()">
 			</form>
 
 			<a style="text-align:center;" href="/api/todos"> Click here to go to api </a>
-			 </div>
-			<div class="col-md-4"></div>
-		</div>
+  </div>
+</div> -->
 
+	
+		<!-- table version-->
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
@@ -63,17 +72,21 @@
 
 
 		<!-- using list group instead of tables here -->
-		<div class='bs-example'>
-		<ul id="todoList" class="list-group"></ul>
+		<!-- <div class='bs-example'> -->
+		<div class="panel panel-default bs-example">
+			<div class="panel-heading"> Create</div>
+			<div class="panel-body"> <form class='create' onSubmit="return false">
+			<input style='padding-left:0px;' name="task" id="name" placeholder="add new todo"> 
+			<!-- <button onclick="submitTodo()" id="name"> Submit </button> -->
+			<a onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a>
+			<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
+			</form>
 
-				<ul id="todoList2" class="list-group"></ul>
+			<a style="text-align:center;" href="/api/todos"> Click here to go to api </a></div>
+			<ul id="todoList" class="list-group"></ul>
+			<ul id="todoList2" class="list-group"></ul>
+		<!-- </div> -->
 		</div>
-
 		<div id="testTable"> </div>
-
-	<!-- 	<div class ="container">
-<div class="col-md-12" class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?autoplay=0" allowfullscreen></iframe>
-</div> -->
 		</body>
 </html> 

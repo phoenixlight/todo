@@ -89,14 +89,20 @@
 							//defines the display of the todo element task itself
 							"<span style='position:absolute;height:40px;width:300px;overflow:auto;'" + "data-showid='" + this._id + "' id='" + this._id + "'>" + this.task + "</span>" +
 
-							//defines input text box
-							"<input style='display:none'  id='"+ this._id + "' data-userid='" + this._id + "'>" + "</input>" + 
+							//defines input text box for editing. hidden @ start
+							"<input style='display:none; position:absolute'  id='"+ this._id + "' data-userid='" + this._id + "'value='" + this.task
 
-							//defines the submit button
-							"<input style='display:none' type='submit' value='Submit' onclick='editTodo(this)' id='" + this._id +  "'></input>" +
+							+  "'>" + "</input>" + 
 
-							"<a onClick='editTodo2(this)' style='margin-left:75%;position:relative' href='#' class='btn btn-warning btn-sm'" +
-							"id='" + this._id + 
+							//defines the submit button **Add left padding**
+							"<button style='display:none; margin-left: 70%; position:relative' type='button' class='btn btn-success btn-sm' onclick='editTodo(this)' id='" + this._id +  
+
+							"' data-showid2='" + this._id 
+
+							+ "'> Change</button>" +
+
+							"<a onClick='editTodo2(this)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
+							"id='" + this._id + "'data-edithide='" + this._id +
 
 							"'>Edit</a>" +
 
@@ -126,7 +132,26 @@
 			console.log(item.id);
 			console.log($("[data-showid='"+ item.id + "']"));
 			var tohide = $("[data-showid='"+ item.id + "']");
-			tohide.style.display = "none";
+
+			// the input edit box 
+			var toshow = $("[data-userid='" + item.id + "']");
+
+			// the input submit edit box 
+			var toshow2 = $("[data-showid2='" + item.id + "']");
+
+			//edit button 
+			var tohide2 = $("[data-edithide='" + item.id + "']");
+
+			console.log(typeof tohide.style);
+
+			console.log("here " + tohide.css('display', 'none'));
+			console.log("here " + toshow.css('display', 'inline'));
+
+			console.log("here " + toshow2.css('display', 'inline'));
+			console.log("here " + tohide2.css('display', 'none'));
+			// tohide.style.display = "none";
+
+			// displayTodos();
 		}
 
 
