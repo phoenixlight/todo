@@ -1,99 +1,49 @@
 <html>
+
 	<head>
+
 		<title> Basic Todo List </title>
 
-		<!-- boostrap CDN --> 
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+		
 		<!-- main CSS style sheet -->
 		<link rel="stylesheet" type="text/css" href="style.css">
 
 		<!-- jquery -->
-	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
-		<!-- loading Javascript -->
+		<!-- loading our own Javascript -->
 		<script src="script.js"></script>  
-		
-		
+
+		<!-- boostrap CSS --> 
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- bootstrap javascript file -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
-
-</div>
 	</head>
 
 
 	<body onload="displayTodos()">
 
+		<!-- Jumbotron title header -->
+		<div class = "container">
+		   <div class = "jumbotron" style="text-align:center;">
+		      <h1> Simple Todo</h1>
+		   </div>
+		</div>
 
-<div class = "container">
-   <div class = "jumbotron" style="text-align:center;">
-      <h1> Simple Todo</h1>
-   </div>
-</div>
-
-<!--lol youtube vid -->
-<!-- 	<div class="row">
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
-			<form onSubmit="return false"> 
-			<input type="text">
+		<!-- todo creation input box  -->
+		<div class='mid'>
+			 <form onSubmit="return false">
+				<input style="margin-left: 175px;" name="task" placeholder="add new todo">
+				<button type="button" onclick="submitTodo()" class="btn btn-success btn-sm"> Create </button>
 			</form>
 		</div>
-	</div> -->
 
+		<!-- the actual list of todos -->
+		<ul id="todoList" class="list-group mid"></ul>
 
-		<!-- todo list table headers -->
-	
-		<!-- SUBMIT FORM FOR NEW TODO -->
-	<!-- 	
-  <div class="panel panel-default create">
-  <div class="panel-body">
-    
-			<form class='create' onSubmit="return false">
-			<input style='padding-left:0px;' name="task" id="name" placeholder="add new todo"> 
-			<button onclick="submitTodo()" id="name"> Submit </button>
-			<a onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a>
-				<input type="submit" value="Submit" onclick="submitTodo()">
-			</form>
+	</body>
 
-			<a style="text-align:center;" href="/api/todos"> Click here to go to api </a>
-  </div>
-</div> -->
-
-	
-		<!-- table version-->
-		<div class="row">
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
-			<table id="todoTable" cellspacing="0" class="table table-striped table-bordered"></table>
-			<div class="col-md-4"></div>
-			</div>
-		</div>
-
-		</div>
-
-			<div style="margin-bottom: 50px;" class='bs-example'>
-			 <form class='create' onSubmit="return false">
-			<input style="margin-left: 175px;" name="task" id="name" placeholder="add new todo"> 
-			<!-- <button onclick="submitTodo()" id="name"> Submit </button> -->
-			<!-- <a  style='padding-left:0px;' onclick="submitTodo()" class="btn btn-success btn-sm">Submit</a> -->
-			<button type="button" onclick="submitTodo()" class="btn btn-success btn-sm">Create</button>
-			<!-- 	<input type="submit" value="Submit" onclick="submitTodo()"> -->
-			</form></div>	
-		<!-- using list group instead of tables here -->
-		<!-- <div class='bs-example'> -->
-		<!-- <div class="panel panel-default bs-example"> -->
-			<!-- <div class="panel-heading" style='text-align:center;'> Simple Todo List</div> -->
-			<!-- <div class="panel-body"> -->
-
-			
-			<!-- <small><a style="margin-left:195px; display:inline-block" href="/api/todos"> Click here to go to api </a></small> -->
-			<ul id="todoList" class="list-group bs-example"></ul>
-			<!-- <ul id="todoList2" class="list-group"></ul> -->
-		<!-- </div> -->
-		<!-- </div> -->
-		<div id="testTable"> </div>
-		</body>
 </html> 

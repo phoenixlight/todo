@@ -1,49 +1,19 @@
-<style>
-
-/* why is this comment in css and html and JS all different ffs */
-input{
-
-        border: 3px solid #CCCCCC !important;
-
+input {
+	/* fix for border issue on text boxes */
+    border: 1px solid #CCCCCC !important;
 }
-		body {
-    		font-family: 	"Comic Sans MS", cursive, sans-serif;
-			font-family: 	"Arial", Helvetica, sans-serif;
-			}
 
-		/*ul {
-			list-style-type : none;
-			margin-left: -40px;
-			border-style: solid;
-		}*/
-
-	/*	td {
-			border-style: outset;
-			 overflow: hidden;
-		}
-*/
-		table
-			{
-				max-width: 800px;
-			  /*  table-layout: fixed;
-			    width: 800px;
-			    overflow: hidden;*/
-			}
-
-form {
-	display: inline;
+body {
+	font-family: 	"Comic Sans MS", cursive, sans-serif;
+	font-family: 	"Arial", Helvetica, sans-serif;
 }
-	.list-group{
-		width: 100%;
-	}
 
-    .bs-example{
-	    margin: auto;
-		width:50%;
-    }
+.mid {
+	margin: auto;
+	width:50%;
+	margin-bottom: 50px;
+}
 
-    .create{
-    	margin: auto;
-    	width:39%;
-    }
-</style>
+.stroked {
+	text-decoration: line-through;
+}
