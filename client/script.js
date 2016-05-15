@@ -22,7 +22,7 @@ function displayTodos(){
 			" onclick='editTodo(this)' id='" + this._id +  "' data-changeID='" + this._id + "'> Change</button>";
 
 			//defines the button which brings up editBox and changeButton
-			var editButton = "<a onClick='edit(this)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
+			var editButton = "<a onClick='editInit(this)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
 				"id='" + this._id + "'data-editID='" + this._id + "'>Edit</a>"
 
 			var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this)'  id='" + this._id +
@@ -64,7 +64,7 @@ function delfunc(item){
 
 // Bring up edit box and change button while hiding task data and edit button
 
-function edit(item) {
+function editInit(item) {
 
 	event.stopPropagation();
 
