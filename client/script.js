@@ -19,13 +19,13 @@ function displayTodos(){
 
 			//defines confirmation and submission of change. hidden at start
 			var changeButton = "<button style='display:none; margin-left: 71%; position:relative' type='button' class='btn btn-success btn-sm' " +
-			" onclick='editTodo(this)' id='" + this._id +  "' data-changeID='" + this._id + "'> Change</button>";
+			" onclick='editTodo(this, event)' id='" + this._id +  "' data-changeID='" + this._id + "'> Change</button>";
 
 			//defines the button which brings up editBox and changeButton
-			var editButton = "<a onClick='editInit(this)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
+			var editButton = "<a onClick='editInit(this, event)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
 				"id='" + this._id + "'data-editID='" + this._id + "'>Edit</a>"
 
-			var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this)'  id='" + this._id +
+			var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this, event)'  id='" + this._id +
 			 "' type='button' class='btn btn-danger btn-sm'>Delete</button>";
 
 			// constructing html to append to our todoList list group
@@ -40,16 +40,18 @@ function displayTodos(){
 
 // POST REQUEST
 	function submitTodo(){
+		// console.log('hererere');
 		data2 = $('form').serialize();
 		//sending form data2
 		$.post("api/todos", data2, function(data) {
 			console.log("created todo!");
+			// console.log('hererere');
 			});
 		displayTodos();
 	};
 
 //DELETE REQUEST
-function delfunc(item){
+function delfunc(item, event){
 	event.stopPropagation();
 	var idStr = item.id;
 	$.ajax({
@@ -64,8 +66,8 @@ function delfunc(item){
 
 // Bring up edit box and change button while hiding task data and edit button
 
-function editInit(item) {
-
+function editInit(item, event) {
+// console.log('here');
 	event.stopPropagation();
 
 	// hide the task data itself
@@ -84,8 +86,8 @@ function editInit(item) {
 
 
 // PUT REQUEST
-function editTodo(item){
-
+function editTodo(item, event){
+	// console.log('hererere');
 	event.stopPropagation();
 
 	// selecting new data in editBox
