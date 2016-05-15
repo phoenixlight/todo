@@ -14,7 +14,7 @@ function displayTodos(){
 			"data-taskID='" + this._id + "' id='" + this._id + "'>" + this.task + "</span>";
 
 			//defines input text box for editing. hidden at start
-			var editBox = "<input style='display:none; position:absolute' id='"+ this._id + 
+			var editBox = "<input style='display:none; position:absolute; width:50%;' id='"+ this._id + 
 			"' data-editBoxID='" + this._id + "'value='" + this.task + "'></input>";
 
 			//defines confirmation and submission of change. hidden at start
