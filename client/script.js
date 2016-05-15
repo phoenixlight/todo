@@ -19,6 +19,7 @@
 		//this function is run every time that a li (*span) element is clicked. 
 		//sends a DELETE request to our api
 			function delfunc(item){
+					event.stopPropagation();
 				var idStr = item.id;
 				console.log(item);
 				console.log(item.id);
@@ -125,9 +126,31 @@
 			};
 
 
+			// this determines if a li element is clicked, excludes buttons within the li element
+			$(document).on("click", 'li', function(event) {
+					event.stopPropagation();
+					// if ($(event.target).is('li')){
+			  // 			alert("Handler for .click() called.");
+			  //  			console.log("clicked fool");
+			  //  			console.log($(this).children('span').attr);
+			  //  			//TODO: ADD IN CROSS OUT EFFECT
+
+
+			  //  		}
+			  console.log($(this).children('span').css('text-decoration', "line-through"));
+			   		// alert("propogation stopped!");
+				});
+  
+
+			// function crossOut() {
+			// 	event.stopPropagation();
+			// 	alert('crossed out!');
+			// }
+
 		//function that hides task when edit button is clicked
 
 		function editTodo2(item) {
+			event.stopPropagation();
 			console.log('in edit #2');
 			console.log(item.id);
 			console.log($("[data-showid='"+ item.id + "']"));
@@ -157,7 +180,7 @@
 
 		//EDIT a todo 
 			function editTodo(item){
-					
+						event.stopPropagation();
 
 				 	console.log(item.id);
 					console.log($(item).attr('data-userid'));
@@ -173,12 +196,10 @@
 					if (newValue) {
 						var upd = true;
 					}
-				
 
 			    	update = {
 			    		"task" : newValue
 			    	}
-
 
 			    	if (upd) {
 				    	$.ajax({
