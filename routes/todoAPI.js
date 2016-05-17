@@ -40,7 +40,8 @@ module.exports = function(app) {
 		//UPDATE post @ _id
 		app.put('/api/todos/:id', function(req, res){
 			var update = {
-				task : req.body.task
+				task : req.body.task,
+				done : req.body.done
 			}
 
 			Todo.findByIdAndUpdate(req.params.id, update, function(err){

@@ -4,7 +4,11 @@ var mongoose = require('mongoose');
 
 //Lets create the schema
 var todoSchema = mongoose.Schema({
-	task: String
+	task: String,
+	done: { 
+		type: Boolean,
+		default: false
+		}
 });
 
 
