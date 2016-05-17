@@ -11,8 +11,6 @@ var todoSchema = mongoose.Schema({
 		}
 });
 
-
-
 // compiling the schema into a Model. First arg is the singular
 // name of the collection (todos collection)
 var Todo = mongoose.model('Todo', todoSchema);

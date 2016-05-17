@@ -20,7 +20,7 @@ function displayTodos(){
 			}
 			//defines input text box for editing. hidden at start
 			var editBox = "<input style='display:none; position:absolute; width:50%;' id='"+ this._id + 
-			"' data-editBoxID='" + this._id + "'value='" + this.task + "'></input>";
+			"' data-editBoxID='" + this._id + "'value='" + this.task + "'done='" + this.done + "'></input>";
 
 			//defines confirmation and submission of change. hidden at start
 			var changeButton = "<button style='display:none; margin-left: 71%; position:relative' type='button' class='btn btn-success btn-sm' " +
@@ -93,59 +93,58 @@ function editInit(item, event) {
 
 // PUT REQUEST
 function editTodo(item, event){
-	// console.log('hererere');
+	console.log('edit requested');
 	event.stopPropagation();
 
 	// selecting new data in editBox
-	var newValue = $("[data-editBoxID='"+ item.id + "']").html();
-	// console.log(newValue);
-
-	// if editBox left empty update stays false
-	var upd = false;
-
-	if (newValue) {
-		upd = true;
-	}
+	var newValue = $("[data-editBoxID='"+ item.id + "']").val();
+	var done = $("[data-editBoxID='"+ item.id + "']").attr('done');
 
 	// update data containing the new value
 	update = {
-		"task" : newValue
+		"task" : newValue,
+		"done" : done
 	}
 
-	if (upd) {
-    	$.ajax({
-			url: '/api/todos/' + item.id,
-			type: 'PUT',
-			data: update,
-			success: function() {
-				console.log('updated!');
-			}
-		});
-	}
+	$.ajax({
+		url: '/api/todos/' + item.id,
+		type: 'PUT',
+		data: update,
+		success: function() {
+			console.log('updated!');
+		}
+	});
 
 	displayTodos();
 };
 
-// LINE THROUGH on click of a todo. Must do a PUT request.
-$(document).on("click", 'li', function(event) {
-	event.stopPropagation();
- 	// $(this).children('span').css('text-decoration', "line-through");
- 	$(this).children('span').toggleClass('stroked');
- 	// console.log($(this).children('span').attr('id'));
- 	var isDone = $(this).children('span');
+$(document).ready(function() {
 
- // 	console.log(isDone);
- // 	console.log(isDone.attr('id'));
-	// console.log(isDone.text());
+	 setInterval(displayTodos(), 500);
 
-// TASK IS DONE i.e. true, therefore  toggle it and change this.done = false
- 	if (isDone.attr('done') == "true") {
- 		console.log('DONE')
- 		var id = $(isDone).attr('id');
- 		var task = $(isDone).text();
-		// var done = $(isDone).attr('done');
+console.log('ready');
 
+// Function that toggles line through on click of a todo.
+$('body').on("click", 'li', function(event) {
 
+	//handles case where we clickj inside the edit text box
+ 	if (event.target.nodeName == "INPUT") {
+ 		return;
+ 	}
+
+ 	//otherwise topggle done value and stroke the task which was clicked
+ 	
+ 	// defining the current task
+	var currentTask = $(this).children('span');
+
+	// toggling its stroked value with CSS class
+ 	currentTask.toggleClass('stroked');
+
+	// TASK IS DONE i.e. true, therefore  toggle it and change this.done = false
+ 	if (currentTask.attr('done') == "true") {
+
+ 		var id = $(currentTask).attr('id');
+ 		var task = $(currentTask).text();
 
  		var update2;
  		update2 = {
@@ -162,29 +161,22 @@ $(document).on("click", 'li', function(event) {
 				 displayTodos();
 			}
 		});
-
-
 	 	console.log('Updated done status to False');
  	}
 
 
 // TASK IS NOT DONE i.e. false, therefore toggle it and change this.done = true
  	else {	
- 		console.log('NOT DONE');
- 		var done = $(isDone).attr('done');
- 		var task = $(isDone).text();
- 		var id = $(isDone).attr('id');
- 		// console.log(task);
- 		// console.log(done);
- 		// console.log(id);
 
+ 		var done = $(currentTask).attr('done');
+ 		var task = $(currentTask).text();
+ 		var id = $(currentTask).attr('id');
+ 	
  		var update2;
  		update2 = {
  			"task" : task,
  			"done" : "true"
  		}
-
- 		console.log(update2);
 
 		$.ajax({
 			url: '/api/todos/' + id,
@@ -199,6 +191,6 @@ $(document).on("click", 'li', function(event) {
 	 	console.log('Updated done status to True');
 
  		}
-
  	
 	});
+});	
