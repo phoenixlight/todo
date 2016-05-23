@@ -1,8 +1,9 @@
 var Todo = require('../models/todoModel');
-
+var User = require('../models/userModel')
 
 module.exports = function(app) {
 		//API CODE
+
 
 		//GET posts
 		app.get('/api/todos', function(req, res) {
