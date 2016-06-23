@@ -1,8 +1,12 @@
 var Todo = require('../models/todoModel');
-var User = require('../models/userModel')
+
+var User = require('../models/userModel');
+
 
 module.exports = function(app) {
 		//API CODE
+var Todo = require('../models/todoModel');
+// var User = require('../models/userModel');
 
 
 		//GET posts
@@ -16,16 +20,34 @@ module.exports = function(app) {
 
 		//GET post @ _id
 		app.get('/api/todos/:id',function(req, res){
-			Todo.findById(req.params.id, function(err, todo){ //other valid syntax { _id : req.params.id}
-				if (err) return err;
-				res.send(todo);
+
+			// Todo.findById(req.params.id, function(err, todo){ //other valid syntax { _id : req.params.id}
+			// 	Todo.populate('creator').exec(function, err, todo){
+			// 	if (err) return err;
+			// 	res.send(todo);
+			// }
+			// });
+			// console.log(req.body);
+
+			//we're finding the given todo and "populating" its user field (which originally contains a user id) with the actual users data	
+			Todo
+			.findById(req.params.id)
+			.populate('creator')
+			.exec(function(err, post){
+				console.log(post);
+				if (err) return "what";
+				res.send(post);
 			});
 		});
 
 		//POST or create NEW post
 		app.post('/api/todos', function(req, res){
+
+			User.findById("573dda59c63df44014ca7403")
+			req.body.creator = "573dda59c63df44014ca7403"
 			Todo.create(req.body, function(err, todo){
-				res.send("Created new todo");
+				res.send(todo);
+				console.log("HOWDY THERE" + todo);
 				// res.end();
 			});
 		});

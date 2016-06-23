@@ -1,13 +1,37 @@
+var User = require('../models/userModel');
+
+
+function displayUsers() {
+	$.get("/api/users", function(data, status) {
+		// $('userList').empty();
+
+		User.findOne({username:"phoenix"}, function(err, user){
+			console.log(user);
+		});
+
+		$.each(data, function(){
+			console.log('hi');
+			console.log(this.username)
+			$('#userList').append(this.username + '<br>');
+			$('#userList').append(this.todoList + '<br>');
+
+
+		});
+	})
+
+}
+
 //Displays todos on initial load as well as clearing old info of todos when called.
 function displayTodos(){
-
-	$.get("/api/todos", function(data, status) {
+	console.log('called display TOdos2');
+	$.get("/api/users/5755d22146c1d3d020fbf3f4", function(data, status) {
 		
 		//clear page of current todolist inorder to update
 		$('#todoList').empty();
-		
+		console.log("HERE IS THE USER: ");
+		console.log(data.todos[0].task);
 		//iterate over each todo we get as a response
-		$.each(data, function(){
+		$.each(data.todos, function(){
 			var task;
 			//defines the display of the todo eleme	nt task itself
 			if (this.done) {
@@ -46,16 +70,25 @@ function displayTodos(){
 
 // POST REQUEST
 	function submitTodo(){
+		var user_id = req.user.username;
+		// User.findby
 		// console.log('hererere');
 		data2 = $('form').serialize();
 		//sending form data2
+		// console.log(data2);
 		$.post("api/todos", data2, function(data) {
-			console.log("created todo!");
+			// $put("api/user/" + data._id);
+			console.log("in submit todo");
+			console.log(user_id);
 			// console.log('hererere');
+
+			//also take the currently logged user and modify it soit includes the
+
 			});
+
+
 		displayTodos();
 	};
-
 //DELETE REQUEST
 function delfunc(item, event){
 	event.stopPropagation();

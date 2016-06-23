@@ -1,46 +1,141 @@
-//create the express object
+// app.js
+
+// set up ======================================================================
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
+var port = process.env.PORT || 3000; //dev port || local port
 var mongoose = require('mongoose');
-
-
 var path = require("path");
-// var sessions = require('client-sessions');
-var session = require('express-session')
-
-var MongoStore = require("connect-mongo")(session);
-
+var bodyParser = require('body-parser');
+var configDB = require('./config/database.js');
 var passport = require('passport');
+var session = require('express-session');
+// var logger = require('express-logger');
+var logger = require('morgan');
 
-var passportLocal = require('passport-local');
+var request = require('request');
 
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-//connect to the mongo database @ mlab
-mongoose.connect('mongodb://gabriel:master@ds013232.mlab.com:13232/phoenix_db');
+// var jsdom = require("jsdom");
+// var $ = null;
 
 var User = require('./models/userModel');
 
-var router = express.Router(); 
+
+// require("jsdom").env("", function(err, window) {
+// 	if (err) {
+// 		console.error(err);
+// 		return;
+// 	}
+ 
+// 	var $ = require("jquery")(window);
+// });
+
+// configuration ===============================================================
+
+mongoose.connect(configDB.url);
+
+app.use(express.static(path.join(__dirname+'/client')));        //to see client side code
+app.use(bodyParser.json());                                     //parsing requests as json
+app.use(bodyParser.urlencoded({ extended: true }));             //parsing form requests
+
+require('./config/passport')(passport);                         //pass passport in to config file for configuration
 
 
-// to see the client side code
-app.use(express.static(path.join(__dirname+'/client')));
+// app.use(require('express-session')({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false })); // session secret
+app.use(passport.initialize());
+app.use(passport.session());
 
-//parsing requests as json
-app.use(bodyParser.json());
-
-//parsing form requests
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
+app.use(logger('dev')); //log every request to the console
 //** NOTE: if there is no index.html file in the client folder, then routes proceed as normal]
 
+//ejs stuff
+app.set('view engine', 'ejs');
 
 
+function getTasks() {
+	app.get('/api/todos', function(req, res) {
+		return res;
+	});
+}
+
+app.get('/', function(req,res) {
+
+	///
+console.log('test0.0');
+
+var task = "default";
+	var drinks = [
+        { name: 'Bloody Mary', drunkness: 3 },
+        { name: 'Martini', drunkness: 5 },
+        { name: 'Scotch', drunkness: 10 }
+    ];
+ var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
+
+console.log(req.user.username + "over here ");
+
+User.find({'username' : req.user.username}, function(err, docs) {
+	console.log(docs[0]._id);
+
+	request('http://localhost:3000/api/users/' + docs[0]._id, function(error, response, body) {
+	if (error) throw error;
+	
+	if (!error && response.statusCode == 200) {
+		// console.log(JSON.parse(body)[0]);
+		// task = JSON.parse(body);
+		// usersTodoList = 
+		};
+
+		var i;
+		todolist2 = JSON.parse(body).todos;
+
+		todostuff = []
+		for (i=0; i<todolist2.length; i++) {
+			console.log(todolist2[i].task);
+			todostuff.push(todolist2[i].task);
+		};
+
+		res.render('todo2', {
+		drinks: drinks,
+		tagline: tagline,
+		tasks: todostuff,
+		user: req.user._id
+		});
+		
+});
+
+// console.log
+
+	});
+// 	console.log("TEST" + task)
+// });
+// console.log("THIS IS THE TASK" + task);
+
+// console.log($)
+
+	
+
+
+});
+
+// this is the route to the todo page
+app.get('/todolist', function(req, res) {
+	res.sendFile(__dirname + '/client/todo.html');
+});
+
+
+app.get('/users', function(req, res) {
+	res.sendFile(__dirname + '/client/users.html');
+});
+
+
+// this is the route to the login page
+app.get('/login', function(req, res) {
+  res.sendFile(__dirname + '/client/login.html');
+});
+
+
+// routes ======================================================================
 
 // The routes for todo api!
 require('./routes/todoAPI')(app);
@@ -48,90 +143,8 @@ require('./routes/todoAPI')(app);
 // The routes for the users api!
 require('./routes/userAPI')(app);
 
-
-
-
-// SESSION STUFF :D:D
-app.use(session({
-  // cookieName: 'session',
-  secret: 'random_string_goes_here',
-  resave: true,
-  saveUninitialized: true,
-  store: new MongoStore({mongooseConnection:mongoose.connection})
-  // duration: 30 * 60 * 1000,
-  // activeDuration: 5 * 60 * 1000,
-}));
-
-
-
-app.post('/login', function(req, res) {
-	var username = req.body.username;
-	var password = req.body.password;
-
-
-	User.findOne({'username': username} , function(err, user) {
-		 if (!user) {
-     		 // res.render('login.jade', { error: 'Invalid email or password.' });
-     		 console.log('invalid user');
-     		 console.log(user);
-     		 console.log(req.body.username);
-     		 			res.end();
-    	  	}
-
-    	 else {
-  			if (user.password === password) {
-    			console.log('Logged in');
-
-    			//sets currently logged in user
-    			req.session.user = user;
-    			
-    			// req.sessions.user = "sdfiojaopweifjpiowef";
-    			// res.redirect('/todo.html');
-
-    			console.log(req.session.user);
-    			req.session.save();
-    			// req.redirect('/')
-    			res.end();
-  			}	
-  			else {
-    			// res.render('login.jade', { error: 'Invalid email or password.' });
-    			console.log('Invalid pass');
-    			res.end();
-  			}
-		}
-	});
-
-	// console.log(req.session);
-});
-
-
-
-// this is the route to the login page
-app.get('/', function(req, res) {
-	console.log('requested home page');
-	console.log(req.session);
-	if (req.session.user) {
-		// console.log(req.session.user)
-		console.log("state logged in")
-		res.sendFile(__dirname+'/client/todo.html');
-	}
-
-	else {
-		console.log("please login")
-		// console.log(req.session.user)
-		res.sendFile(__dirname+'/client/login.html');
-	}
-
-});
-
-// this is the route to the login page
-app.get('/todolist', function(req, res) {
-	res.sendFile(__dirname+'/client/todo.html');
-
-});
-
-//using a development port or a local port
-var port = process.env.PORT || 3000;
+// THe routes for authentication
+require('./routes/auth')(app, passport);
 
 //create a server listening on the port
 app.listen(port);

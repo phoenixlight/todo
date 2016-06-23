@@ -2,10 +2,10 @@ var User = require('../models/userModel');
 
 var sessions = require('client-sessions');
 
+
+
 module.exports = function(app) {
 		//API CODE
-
-
 
 
 	app.get('/dashboard', function(req, res) {
@@ -27,15 +27,29 @@ module.exports = function(app) {
 
 		//GET user @ _id
 		app.get('/api/users/:id',function(req, res){
-			User.findById(req.params.id, function(err, user){ //other valid syntax { _id : req.params.id}
-				if (err) return err;
-				res.send(user);
-			});
+			User
+			.findById(req.params.id)
+			.populate('todos')
+			.exec(function(err, post){
+				console.log(post);
+				if (err) return "what";
+				res.send(post);
+});
+
+
+			// User.findById(req.params.id, function(err, user){ //other valid syntax { _id : req.params.id}
+			// 	if (err) return err;
+			// 	res.send(user);
+			// });
 		});
 
 		//POST or create NEW user
 		app.post('/api/users', function(req, res){
+			req.body.todos = ['575587c906d9d1f40c8a6c6c', '575587cc06d9d1f40c8a6c6e'];
 			User.create(req.body, function(err, user){
+				//hard coding a pushed todo id
+
+
 				res.send("Created new user");
 				// res.end();
 			});
