@@ -59,6 +59,8 @@ function getTasks() {
 	});
 }
 
+
+// ROUTE FOR THE HOME PAGE
 app.get('/', function(req,res) {
 
 	///
@@ -75,7 +77,7 @@ var task = "default";
 console.log(req.user.username + "over here ");
 
 User.find({'username' : req.user.username}, function(err, docs) {
-	console.log(docs[0]._id);
+	console.log(docs[0]._id); // prints out the id
 
 	request('http://localhost:3000/api/users/' + docs[0]._id, function(error, response, body) {
 	if (error) throw error;
@@ -98,8 +100,11 @@ User.find({'username' : req.user.username}, function(err, docs) {
 		res.render('todo2', {
 		drinks: drinks,
 		tagline: tagline,
-		tasks: todostuff,
-		user: req.user._id
+		tasks: todolist2,
+		user: req.user._id,
+		username: req.user.username,
+		password: req.user.password,
+		todos: req.user.todos
 		});
 		
 });

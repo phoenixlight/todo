@@ -31,7 +31,7 @@ module.exports = function(app) {
 			.findById(req.params.id)
 			.populate('todos')
 			.exec(function(err, post){
-				console.log(post);
+				// console.log(post); 	// here we log the user during its get request
 				if (err) return "what";
 				res.send(post);
 });
@@ -45,7 +45,8 @@ module.exports = function(app) {
 
 		//POST or create NEW user
 		app.post('/api/users', function(req, res){
-			req.body.todos = ['575587c906d9d1f40c8a6c6c', '575587cc06d9d1f40c8a6c6e'];
+			// req.body.todos = ['575587c906d9d1f40c8a6c6c', '575587cc06d9d1f40c8a6c6e'];
+			req.body.todos = [];
 			User.create(req.body, function(err, user){
 				//hard coding a pushed todo id
 
@@ -66,10 +67,9 @@ module.exports = function(app) {
 		//UPDATE post @ _id
 		app.put('/api/users/:id', function(req, res){
 			var update = {
-				username : req.body.task,
-				password : req.body.done,
-				firstname : req.body.firstname, 
-				lastname : req.body.lastname
+				username : req.body.username,
+				password : req.body.password,
+				todos : req.body.todos
 			}
 
 			User.findByIdAndUpdate(req.params.id, update, function(err){

@@ -1,39 +1,6 @@
 
 <html>
 
-
-<head>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
-</head>
-<body>
-<ul>
-	<% drinks.forEach(function(drink) { %>
-	<li>
-		<%= drink.name %> - <%= drink.drunkness%>
-	</li>
-	<% }); %>
-</ul>
-
-<ul>
-	 <% tasks.forEach(function(task) { %>
-	<li>
-		<%= task %>  
-	</li>
-	<% }); %>
-</ul>
-
-<br><br><br><br>
-
-
-
-</body>
-
-</html>
-
-<html>
-
 	<head>
 
 		<title> Basic Todo List </title>
@@ -59,7 +26,7 @@
 
 
 	
-	<body onload="displayTodos()">
+	<body onload="displayTodos('<%= user %>')">
 
 
 		<!-- Jumbotron title header -->
@@ -69,12 +36,27 @@
 		   </div>
 		</div>
 
+		<!-- Some user info for testing purposes -->
+			 USER ID = <%= user %> <br> 
+			 USER NAME = <%= username %>  <br>
+			 PASSWORD = <%= password %> <br>
+			 <%= todos %> <br>
+
+
 		<!-- todo creation input box  -->
 		<div class='mid'>
+
 			 <form onSubmit="return false">
-			 <%= user %>
-				<input style="margin-left: 175px;" name="task" placeholder="add new todo">
-				<button type="button" onclick="submitTodo()" class="btn btn-success btn-sm"> Create </button>
+
+				<!-- input box -->
+				<input style="margin-left: 175px;" name="task" placeholder="add new todo" >
+
+				<!-- (hidden) passing in a creator property for the post request and giving it the value of the logged in user -->		
+				<input style="margin-left: 175px; display: none" name="creator" value="<%= user %>" >		
+
+				<!--can we do this better? by not passing in password in order to update ||| fine for now  -->
+				<button type="button" onclick="submitTodo('<%= user %>', '<%= username %>', '<%= password %>', '<%= todos %>')" class="btn btn-success btn-sm"> Create </button>
+
 			</form>
 		</div>
 
@@ -92,4 +74,4 @@
 
 	</body>
 
-</html> 
+</html>

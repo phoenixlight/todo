@@ -43,8 +43,9 @@ var Todo = require('../models/todoModel');
 		//POST or create NEW post
 		app.post('/api/todos', function(req, res){
 
-			User.findById("573dda59c63df44014ca7403")
-			req.body.creator = "573dda59c63df44014ca7403"
+			// User.findById("573dda59c63df44014ca7403")
+			console.log(req.body.creator);
+			// req.body.creator = "573dda59c63df44014ca7403"
 			Todo.create(req.body, function(err, todo){
 				res.send(todo);
 				console.log("HOWDY THERE" + todo);

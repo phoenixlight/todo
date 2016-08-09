@@ -1,4 +1,4 @@
-var User = require('../models/userModel');
+// var User = require('../models/userModel');
 
 
 function displayUsers() {
@@ -22,18 +22,23 @@ function displayUsers() {
 }
 
 //Displays todos on initial load as well as clearing old info of todos when called.
-function displayTodos(){
-	console.log('called display TOdos2');
-	$.get("/api/users/5755d22146c1d3d020fbf3f4", function(data, status) {
+function displayTodos(toInsert){
+	console.log('called display Todos');
+	$('#todoList').empty();
+	$.get("/api/users/" + toInsert, function(data, status) {
 		
 		//clear page of current todolist inorder to update
-		$('#todoList').empty();
+		
 		console.log("HERE IS THE USER: ");
-		console.log(data.todos[0].task);
+
+		if (data.todos[0]) {
+			console.log(data.todos[0].task);
+		}
+
 		//iterate over each todo we get as a response
 		$.each(data.todos, function(){
-			var task;
-			//defines the display of the todo eleme	nt task itself
+			var creator = this.creator;
+			//defines the display of the todo element task itself
 			if (this.done) {
 				 task = "<span style='position:absolute;height:40px;width:300px;overflow:auto;text-decoration:line-through;'" + 
 				"data-taskID='" + this._id + "' id='" + this._id + "' done='" + this.done + "'>" + this.task + "</span>";
@@ -54,13 +59,15 @@ function displayTodos(){
 			var editButton = "<a onClick='editInit(this, event)' style='margin-left:75%;position:relative' class='btn btn-warning btn-sm'" +
 				"id='" + this._id + "'data-editID='" + this._id + "'>Edit</a>"
 
-			var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this, event)'  id='" + this._id +
+			var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this,event)'  id='" + this._id +
 			 "' type='button' class='btn btn-danger btn-sm'>Delete</button>";
+
+			 	// var deleteButton = "<button style='margin-left:1% '  onClick='delfunc(this," + creator + ")' ";
 
 			
 			// constructing html to append to our todoList list group
 			$('#todoList').append(
-				"<li class='list-group-item'>" + task + editBox + changeButton + editButton + deleteButton + "</li>"
+				"<li class='list-group-item'>" + task + editBox + changeButton + editButton + deleteButton +  "</li>" + toInsert
 				);
 
 		});
@@ -68,39 +75,114 @@ function displayTodos(){
 
 };
 
-// POST REQUEST
-	function submitTodo(){
-		var user_id = req.user.username;
-		// User.findby
-		// console.log('hererere');
-		data2 = $('form').serialize();
-		//sending form data2
-		// console.log(data2);
-		$.post("api/todos", data2, function(data) {
-			// $put("api/user/" + data._id);
-			console.log("in submit todo");
-			console.log(user_id);
-			// console.log('hererere');
+// POST REQUEST. i.e. the creation of a new todo
+	function submitTodo(toInsert, username, password, todos){
+	
+		submitData = $('form').serialize();
+		
+		// send a get req for currently logged in user ( @id toInsert)
+		$.get('/api/users/' + toInsert, function( user ) {
 
-			//also take the currently logged user and modify it soit includes the
+		  // grab said users' todo list of *IDS* and place in updateArr
+		  	var i;
+		  	var updateArr = [];
+		  	for (i=0; i<user.todos.length; i++) {
+		  		updateArr.push(user.todos[i]._id);
+		  	}
 
+			// post the new todo to /api/todos
+			$.post("api/todos", submitData, function(data) {
+						
+				// here we push the new todo to updateArr		
+				updateArr.push(data._id);
+				
+				update = { 
+					username: username,
+					password: password,
+					todos: updateArr
+					}
+
+				// this section of code updates the Users personal todo list
+				$.ajax({
+					url: '/api/users/' + toInsert,
+					type: 'PUT',
+					data: update,
+					success: function() {
+						console.log('updated user todo list!');
+		 				displayTodos(toInsert);
+					}
 			});
 
+						
+			}); // end of $.post(.....)
 
-		displayTodos();
-	};
+		}); // end of $.get(.....)
+
+	}; //end of submit function
+
 //DELETE REQUEST
 function delfunc(item, event){
-	event.stopPropagation();
+	// event.stopPropagation();
+	console.log('This here is the user');
+	
 	var idStr = item.id;
-	$.ajax({
-		url: '/api/todos/' + idStr,
-		type: 'DELETE',
-		success: function() {
-			console.log('deleted!');
-		}
+
+	//getting the right todo so we can find its creators id, and subsequently edit the cretor
+	$.get("/api/todos/" + item.id, function(data, status) {
+		console.log(data.creator._id);
+
+		//modify this creators todo list!
+
+		updateArr = [];
+
+		// here we are grabbing the specific creator's infromation
+		$.get("/api/users/" + data.creator._id, function(data2, status) {
+			// console.log(data2);
+
+			// copying creators orignal todo list but excluding the todo that needs to be deleted
+			for (i=0; i<data2.todos.length; i++) {
+				if (data2.todos[i]._id === data._id) {
+					console.log(data2.todos[i]._id)
+				}
+
+				else {
+					console.log(data2.todos[i]._id + "==" + data._id);
+					updateArr.push(data2.todos[i]);
+				}
+			}
+
+			// new info for the creator
+			update = {
+				username: data2.username,
+				password: data2.password,
+				todos: updateArr
+			}
+
+			//update with new info with a put request
+			$.ajax({
+				url: '/api/users/' + data.creator._id,
+				type: 'PUT',
+				data: update,
+				success: function() {
+					console.log('adjusted creators todo list!');
+				}
+			});	
+
+			//delete the todo itself
+			$.ajax({
+				url: '/api/todos/' + data._id,
+				type: 'DELETE',
+				success: function() {
+					console.log('deleted todo!');
+				}
+			});
+
+		});
+	//have todisplay logged in user, not hard coded users
+	displayTodos(data.creator._id);
+
 	});
-	displayTodos();
+	
 };
 
 // Bring up edit box and change button while hiding task data and edit button
