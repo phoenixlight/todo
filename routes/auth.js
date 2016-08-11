@@ -21,4 +21,14 @@ app.get('/loginSuccess', function(req, res) {
 
 
 
+    // =====================================
+    // LOGOUT ==============================
+    // =====================================
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/login');
+    });
+};
+
+
 };

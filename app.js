@@ -63,60 +63,72 @@ function getTasks() {
 // ROUTE FOR THE HOME PAGE
 app.get('/', function(req,res) {
 
-	///
-console.log('test0.0');
-
-var task = "default";
-	var drinks = [
-        { name: 'Bloody Mary', drunkness: 3 },
-        { name: 'Martini', drunkness: 5 },
-        { name: 'Scotch', drunkness: 10 }
-    ];
- var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
-
-console.log(req.user.username + "over here ");
-
-User.find({'username' : req.user.username}, function(err, docs) {
-	console.log(docs[0]._id); // prints out the id
-
-	request('http://localhost:3000/api/users/' + docs[0]._id, function(error, response, body) {
-	if (error) throw error;
-	
-	if (!error && response.statusCode == 200) {
-		// console.log(JSON.parse(body)[0]);
-		// task = JSON.parse(body);
-		// usersTodoList = 
-		};
-
-		var i;
-		todolist2 = JSON.parse(body).todos;
-
-		todostuff = []
-		for (i=0; i<todolist2.length; i++) {
-			console.log(todolist2[i].task);
-			todostuff.push(todolist2[i].task);
-		};
-
 		res.render('todo2', {
-		drinks: drinks,
-		tagline: tagline,
-		tasks: todolist2,
+		// drinks: drinks,
+		// tagline: tagline,
+		// tasks: todolist2,
 		user: req.user._id,
 		username: req.user.username,
 		password: req.user.password,
 		todos: req.user.todos
 		});
+
+	///
+// console.log('test0.0');
+
+// var task = "default";
+// 	var drinks = [
+//         { name: 'Bloody Mary', drunkness: 3 },
+//         { name: 'Martini', drunkness: 5 },
+//         { name: 'Scotch', drunkness: 10 }
+//     ];
+//  var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
+
+// // console.log(req.user.username + "over here ");
+
+// User.find({'username' : req.user.username}, function(err, docs) {
+// 	console.log(docs[0]._id); // prints out the id
+
+
+// 	// makes a request for the currently logged in users info
+
+// 	request('http://localhost:3000/api/users/' + docs[0]._id, function(error, response, body) {
+// 	if (error) throw error;
+	
+// 	if (!error && response.statusCode == 200) {
+// 		// console.log(JSON.parse(body)[0]);
+// 		// task = JSON.parse(body);
+// 		// usersTodoList = 
+// 		};
+
+// 		var i;
+// 		todolist2 = JSON.parse(body).todos;
+
+// 		// moving the todo list into a variable
+// 		todostuff = []
+// 		for (i=0; i<todolist2.length; i++) {
+// 			console.log(todolist2[i].task);
+// 			todostuff.push(todolist2[i].task);
+// 		};
+
+// 		res.render('todo2', {
+// 		drinks: drinks,
+// 		tagline: tagline,
+// 		tasks: todolist2,
+// 		user: req.user._id,
+// 		username: req.user.username,
+// 		password: req.user.password,
+// 		todos: req.user.todos
+// 		});
 		
-});
+// 		});
 
-// console.log
 
-	});
-// 	console.log("TEST" + task)
-// });
-// console.log("THIS IS THE TASK" + task);
+	// });
 
-// console.log($)
+
+
+
 
 	
 

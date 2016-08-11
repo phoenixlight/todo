@@ -10,4 +10,4 @@
 	- display currentusers todos, fix the hard code   
 
 6. working on log out  
-	- default home page for login                                                                                                                                                                                     
+	- it should redirect to login page                                                                                                                                                                                    

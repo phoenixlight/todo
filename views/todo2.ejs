@@ -36,6 +36,11 @@
 		   </div>
 		</div>
 
+		<!-- Log out button -->
+   		<div class="page-header text-center">
+        	<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+   		</div>
+
 		<!-- Some user info for testing purposes -->
 			 USER ID = <%= user %> <br> 
 			 USER NAME = <%= username %>  <br>
@@ -64,7 +69,7 @@
 		<!-- <ul id="todoList" class="list-group mid"></ul> -->
 
 		<ul id="todoList" class="list-group mid">
-			 <% tasks.forEach(function(task) { %>
+			 <% todos.forEach(function(task) { %>
 				<li>
 					<%= task %> 
 				</li>
