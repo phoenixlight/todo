@@ -10,25 +10,11 @@ var bodyParser = require('body-parser');
 var configDB = require('./config/database.js');
 var passport = require('passport');
 var session = require('express-session');
-// var logger = require('express-logger');
 var logger = require('morgan');
-
 var request = require('request');
-
-// var jsdom = require("jsdom");
-// var $ = null;
-
 var User = require('./models/userModel');
 
-
-// require("jsdom").env("", function(err, window) {
-// 	if (err) {
-// 		console.error(err);
-// 		return;
-// 	}
- 
-// 	var $ = require("jquery")(window);
-// });
+var flash = require('connect-flash');
 
 // configuration ===============================================================
 
@@ -45,114 +31,16 @@ require('./config/passport')(passport);                         //pass passport 
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false })); // session secret
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 app.use(logger('dev')); //log every request to the console
 //** NOTE: if there is no index.html file in the client folder, then routes proceed as normal]
 
 //ejs stuff
 app.set('view engine', 'ejs');
 
-
-function getTasks() {
-	app.get('/api/todos', function(req, res) {
-		return res;
-	});
-}
-
-
-// ROUTE FOR THE HOME PAGE
-app.get('/', function(req,res) {
-
-		res.render('todo2', {
-		// drinks: drinks,
-		// tagline: tagline,
-		// tasks: todolist2,
-		user: req.user._id,
-		username: req.user.username,
-		password: req.user.password,
-		todos: req.user.todos
-		});
-
-	///
-// console.log('test0.0');
-
-// var task = "default";
-// 	var drinks = [
-//         { name: 'Bloody Mary', drunkness: 3 },
-//         { name: 'Martini', drunkness: 5 },
-//         { name: 'Scotch', drunkness: 10 }
-//     ];
-//  var tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
-
-// // console.log(req.user.username + "over here ");
-
-// User.find({'username' : req.user.username}, function(err, docs) {
-// 	console.log(docs[0]._id); // prints out the id
-
-
-// 	// makes a request for the currently logged in users info
-
-// 	request('http://localhost:3000/api/users/' + docs[0]._id, function(error, response, body) {
-// 	if (error) throw error;
-	
-// 	if (!error && response.statusCode == 200) {
-// 		// console.log(JSON.parse(body)[0]);
-// 		// task = JSON.parse(body);
-// 		// usersTodoList = 
-// 		};
-
-// 		var i;
-// 		todolist2 = JSON.parse(body).todos;
-
-// 		// moving the todo list into a variable
-// 		todostuff = []
-// 		for (i=0; i<todolist2.length; i++) {
-// 			console.log(todolist2[i].task);
-// 			todostuff.push(todolist2[i].task);
-// 		};
-
-// 		res.render('todo2', {
-// 		drinks: drinks,
-// 		tagline: tagline,
-// 		tasks: todolist2,
-// 		user: req.user._id,
-// 		username: req.user.username,
-// 		password: req.user.password,
-// 		todos: req.user.todos
-// 		});
-		
-// 		});
-
-
-	// });
-
-
-
-
-
-	
-
-
-});
-
-// this is the route to the todo page
-app.get('/todolist', function(req, res) {
-	res.sendFile(__dirname + '/client/todo.html');
-});
-
-
-app.get('/users', function(req, res) {
-	res.sendFile(__dirname + '/client/users.html');
-});
-
-
-// this is the route to the login page
-app.get('/login', function(req, res) {
-  res.sendFile(__dirname + '/client/login.html');
-});
-
-
-// routes ======================================================================
+// ==============================
+// require in the routes ========
+// ==============================
 
 // The routes for todo api!
 require('./routes/todoAPI')(app);
@@ -161,7 +49,7 @@ require('./routes/todoAPI')(app);
 require('./routes/userAPI')(app);
 
 // THe routes for authentication
-require('./routes/auth')(app, passport);
+require('./routes/routes')(app, passport);
 
 //create a server listening on the port
 app.listen(port);
