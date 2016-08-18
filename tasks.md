@@ -10,4 +10,11 @@
 	- display currentusers todos, fix the hard code   
 
 6. working on log out  
-	- it should redirect to login page                                                                                                                                                                                    
+	- it should redirect to login page    
+
+
+7. bUGS
+	> DISPLAY TODOS () clearing but not re displaying
+	> empty todo list causes an error
+		> becomes null after delete
+	> flash not working for sign up

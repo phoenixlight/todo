@@ -308,4 +308,6 @@ $('body').on("click", 'li', function(event) {
  		}
  	
 	});
+
+displayTodos();
 });	

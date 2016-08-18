@@ -32,7 +32,9 @@ module.exports = function(app, passport) {
   // show the signup form
   app.get('/signup', function(req, res) {
     // res.sendFile(__dirname + '/client/login.html');
-    res.render('signup.ejs');
+    res.render('signup.ejs', {
+      message: req.flash('signupMessage')
+    });
   });
 
   // process the signup form

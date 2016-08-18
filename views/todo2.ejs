@@ -69,11 +69,13 @@
 		<!-- <ul id="todoList" class="list-group mid"></ul> -->
 
 		<ul id="todoList" class="list-group mid">
+		<% if (todos) { %>
 			 <% todos.forEach(function(task) { %>
 				<li>
 					<%= task %> 
 				</li>
 			<% }); %>
+		<% }; %>
 		</ul>
 
 
