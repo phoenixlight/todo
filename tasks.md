@@ -18,3 +18,5 @@
 	> empty todo list causes an error
 		> becomes null after delete
 	> flash not working for sign up
+
+	> fix delete displayTodos()

@@ -25,7 +25,7 @@
 	</head>
 
 
-	
+	<!-- display Todos is called as soon as page loads using EJS 'user' variable passed in from the server-->
 	<body onload="displayTodos('<%= user %>')">
 
 
@@ -33,6 +33,8 @@
 		<div class = "container">
 		   <div class = "jumbotron" style="text-align:center;">
 		      <h1> Simple Todo</h1>
+		      <p>	 Hello, <%= username %>. <br>
+			 Welcome to your todo list.  </p>
 		   </div>
 		</div>
 
@@ -42,10 +44,15 @@
    		</div>
 
 		<!-- Some user info for testing purposes -->
-			 USER ID = <%= user %> <br> 
-			 USER NAME = <%= username %>  <br>
+			<!--  Hello, <%= username %>. <br>
+			 Welcome to Your todo list.  -->
+			<!--  USER NAME = <%= username %>  <br>
 			 PASSWORD = <%= password %> <br>
-			 <%= todos %> <br>
+			 <% todos.forEach(function(task) { %>
+				<br>
+			 	<%= task %>
+				<br>
+			 <% }); %> -->
 
 
 		<!-- todo creation input box  -->
@@ -56,7 +63,7 @@
 				<!-- input box -->
 				<input style="margin-left: 175px;" name="task" placeholder="add new todo" >
 
-				<!-- (hidden) passing in a creator property for the post request and giving it the value of the logged in user -->		
+				<!-- (hidden) passing in a creator property for the post request and giving it the value of the logged in user. This is needed to give the creator info for when creating a new Todo. -->		
 				<input style="margin-left: 175px; display: none" name="creator" value="<%= user %>" >		
 
 				<!--can we do this better? by not passing in password in order to update ||| fine for now  -->
@@ -69,13 +76,13 @@
 		<!-- <ul id="todoList" class="list-group mid"></ul> -->
 
 		<ul id="todoList" class="list-group mid">
-		<% if (todos) { %>
+	<!-- 	<% if (todos) { %>
 			 <% todos.forEach(function(task) { %>
 				<li>
 					<%= task %> 
 				</li>
 			<% }); %>
-		<% }; %>
+		<% }; %> -->
 		</ul>
 
 

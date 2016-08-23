@@ -1,35 +1,24 @@
-// var User = require('../models/userModel');
+  
 
-
-function displayUsers() {
-	$.get("/api/users", function(data, status) {
-		// $('userList').empty();
-
-		User.findOne({username:"phoenix"}, function(err, user){
-			console.log(user);
-		});
-
-		$.each(data, function(){
-			console.log('hi');
-			console.log(this.username)
-			$('#userList').append(this.username + '<br>');
-			$('#userList').append(this.todoList + '<br>');
-
-
-		});
-	})
-
-}
+// ===============================================================================================================================
+// FUNCTIONS that are called from the HTML page, manipulating the view and database (by making API requests) =====================
+// ===============================================================================================================================
 
 //Displays todos on initial load as well as clearing old info of todos when called.
+
 function displayTodos(toInsert){
-	console.log('called display Todos');
+
+	console.log('Display Todos');
+
+	//Empty #todoList element
 	$('#todoList').empty();
+
+	
 	$.get("/api/users/" + toInsert, function(data, status) {
 		
 		//clear page of current todolist inorder to update
 		
-		console.log("HERE IS THE USER: ");
+		// console.log("HERE IS THE USER: ");
 
 		if (data.todos[0]) {
 			console.log(data.todos[0].task);
@@ -67,7 +56,7 @@ function displayTodos(toInsert){
 			
 			// constructing html to append to our todoList list group
 			$('#todoList').append(
-				"<li class='list-group-item'>" + task + editBox + changeButton + editButton + deleteButton +  "</li>" + toInsert
+				"<li class='list-group-item'>" + task + editBox + changeButton + editButton + deleteButton +  "</li>"
 				);
 
 		});
@@ -122,7 +111,7 @@ function displayTodos(toInsert){
 
 //DELETE REQUEST
 function delfunc(item, event){
-	// event.stopPropagation();
+	event.stopPropagation();
 	console.log('This here is the user');
 	
 	var idStr = item.id;
@@ -174,12 +163,13 @@ function delfunc(item, event){
 				type: 'DELETE',
 				success: function() {
 					console.log('deleted todo!');
+						displayTodos(data.creator._id);
 				}
 			});
 
 		});
 	//have todisplay logged in user, not hard coded users
-	displayTodos(data.creator._id);
+
 
 	});
 	
@@ -208,7 +198,7 @@ function editInit(item, event) {
 
 // PUT REQUEST
 function editTodo(item, event){
-	console.log('edit requested');
+	// console.log('edit requested');
 	event.stopPropagation();
 
 	// selecting new data in editBox
@@ -225,13 +215,19 @@ function editTodo(item, event){
 		url: '/api/todos/' + item.id,
 		type: 'PUT',
 		data: update,
-		success: function() {
-			console.log('updated!');
+		success: function(todoData) {
+			// console.log('updated!');
+			// console.log("1 = " + todoData.creator)
+			// console.log(todoData.task + "here is the todo data");
+			displayTodos(todoData.creator);
 		}
 	});
 
-	displayTodos();
+	
 };
+
+
+// Section that toggles the done status (i.e. line through) of the task
 
 $(document).ready(function() {
 
@@ -271,9 +267,9 @@ $('body').on("click", 'li', function(event) {
 			url: '/api/todos/' + id,
 			type: 'PUT',
 			data: update2,
-			success: function() {
+			success: function(todoData) {
 				console.log('updated!');
-				 displayTodos();
+				displayTodos(todoData.creator);
 			}
 		});
 	 	console.log('Updated done status to False');
@@ -297,9 +293,9 @@ $('body').on("click", 'li', function(event) {
 			url: '/api/todos/' + id,
 			type: 'PUT',
 			data: update2,
-			success: function() {
+			success: function(todoData) {
 				console.log('updated!');
-				 displayTodos();
+				 displayTodos(todoData.creator);
 			}
 		});
 
@@ -309,5 +305,5 @@ $('body').on("click", 'li', function(event) {
  	
 	});
 
-displayTodos();
+// displayTodos();
 });	

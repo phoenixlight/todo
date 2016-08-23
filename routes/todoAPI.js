@@ -68,9 +68,9 @@ var Todo = require('../models/todoModel');
 				done : req.body.done
 			}
 
-			Todo.findByIdAndUpdate(req.params.id, update, function(err){
+			Todo.findByIdAndUpdate(req.params.id, update, function(err, data){
 				if (err) throw err;
-				res.send("Updated!")
+				res.send(data);
 			});
 		});
 
