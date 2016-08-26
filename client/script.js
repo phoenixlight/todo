@@ -13,17 +13,18 @@ function displayTodos(toInsert){
 	//Empty #todoList element
 	$('#todoList').empty();
 
-	
+
 	$.get("/api/users/" + toInsert, function(data, status) {
 		
 		//clear page of current todolist inorder to update
 		
 		// console.log("HERE IS THE USER: ");
 
-		if (data.todos[0]) {
-			console.log(data.todos[0].task);
+		if (data.todos == null) {
+			console.log("totes null brah");
 		}
 
+		else {
 		//iterate over each todo we get as a response
 		$.each(data.todos, function(){
 			var creator = this.creator;
@@ -59,13 +60,15 @@ function displayTodos(toInsert){
 				"<li class='list-group-item'>" + task + editBox + changeButton + editButton + deleteButton +  "</li>"
 				);
 
-		});
+			});
+
+		};
 	});
 
 };
 
 // POST REQUEST. i.e. the creation of a new todo
-	function submitTodo(toInsert, username, password, todos){
+	function submitTodo(toInsert, username, todos){
 	
 		submitData = $('form').serialize();
 		
@@ -75,9 +78,15 @@ function displayTodos(toInsert){
 		  // grab said users' todo list of *IDS* and place in updateArr
 		  	var i;
 		  	var updateArr = [];
-		  	for (i=0; i<user.todos.length; i++) {
-		  		updateArr.push(user.todos[i]._id);
-		  	}
+
+		  //check if users todo list is null
+		  if (user.todos != null) {
+			for (i=0; i<user.todos.length; i++) {
+					  		updateArr.push(user.todos[i]._id);
+					  	}
+		  }
+
+		  	
 
 			// post the new todo to /api/todos
 			$.post("api/todos", submitData, function(data) {
@@ -87,7 +96,7 @@ function displayTodos(toInsert){
 				
 				update = { 
 					username: username,
-					password: password,
+					password: user.password,
 					todos: updateArr
 					}
 
@@ -163,7 +172,13 @@ function delfunc(item, event){
 				type: 'DELETE',
 				success: function() {
 					console.log('deleted todo!');
+					if (data.creator.todos==null) {
+						console.log("So null brah.");
+					}
+
+						else {
 						displayTodos(data.creator._id);
+						}
 				}
 			});
 
