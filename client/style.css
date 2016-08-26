@@ -18,3 +18,7 @@ body {
 .stroked {
 	text-decoration: line-through;
 }
+
+.container .jumbotron {
+padding-left: 60px;
+}

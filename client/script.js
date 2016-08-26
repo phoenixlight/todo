@@ -68,7 +68,7 @@ function displayTodos(toInsert){
 };
 
 // POST REQUEST. i.e. the creation of a new todo
-	function submitTodo(toInsert, username, todos){
+	function submitTodo(toInsert){
 	
 		submitData = $('form').serialize();
 		
@@ -95,7 +95,7 @@ function displayTodos(toInsert){
 				updateArr.push(data._id);
 				
 				update = { 
-					username: username,
+					username: user.username,
 					password: user.password,
 					todos: updateArr
 					}

@@ -26,17 +26,17 @@
 
 
 	<!-- display Todos is called as soon as page loads using EJS 'user' variable passed in from the server-->
-	<body onload="displayTodos('<%= user %>')">
+	<body onload="displayTodos('<%= user %>')" background="http://wallpapercave.com/wp/GPX49yQ.png">
 
 
 		<!-- Jumbotron title header -->
 		<div class = "container">
-		   <div class = "jumbotron" style="text-align:center;">
+		   <!-- <div class = "jumbotron" style="text-align:center;"> -->
 		      <h1> Simple Todo</h1> 
-<img src="http://images.musictimes.com/data/images/full/16566/cartman-brahhhhhh.jpg" alt="Mountain View" style="width:304px;height:228px;">
+	<img src="http://images.musictimes.com/data/images/full/16566/cartman-brahhhhhh.jpg" alt="Mountain View" style="width:304px;height:228px;">
 		      <p>	 Hello, <%= username %>. <br>
 			 Welcome to your todo list.  </p>
-		   </div>
+		   <!-- </div> -->
 		</div>
 
 		<!-- Log out button -->
@@ -47,7 +47,7 @@
 
 		<!-- todo creation input box  -->
 		<div class='mid'>
-
+		<h2> Create a todo here !! </h2>
 			 <form onSubmit="return false">
 
 				<!-- input box -->
@@ -57,22 +57,15 @@
 				<input style="margin-left: 175px; display: none" name="creator" value="<%= user %>" >		
 
 				<!--can we do this better? by not passing in password in order to update ||| fine for now  -->
-				<button type="button" onclick="submitTodo('<%= user %>', '<%= username %>', '<%= password %>', '<%= todos %>')" class="btn btn-success btn-sm"> Create </button>
+				<button type="button" onclick="submitTodo('<%= user %>')" class="btn btn-success btn-sm"> Create </button>
 
 			</form>
 		</div>
 
 		<!-- the actual list of todos -->
-		<!-- <ul id="todoList" class="list-group mid"></ul> -->
 
 		<ul id="todoList" class="list-group mid">
-	<!-- 	<% if (todos) { %>
-			 <% todos.forEach(function(task) { %>
-				<li>
-					<%= task %> 
-				</li>
-			<% }); %>
-		<% }; %> -->
+		<!-- this part is filled in through displayTodos() in script.js on load -->
 		</ul>
 
 
