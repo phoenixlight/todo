@@ -249,76 +249,76 @@ $(document).ready(function() {
 	 setInterval(displayTodos(), 500);
 
 console.log('ready');
-
+});
 // Function that toggles line through on click of a todo.
-$('body').on("click", 'li', function(event) {
+// $('body').on("click", 'li', function(event) {
 
-	//handles case where we clickj inside the edit text box
- 	if (event.target.nodeName == "INPUT") {
- 		return;
- 	}
+// 	//handles case where we clickj inside the edit text box
+//  	if (event.target.nodeName == "INPUT") {
+//  		return;
+//  	}
 
- 	//otherwise topggle done value and stroke the task which was clicked
+//  	//otherwise topggle done value and stroke the task which was clicked
  	
- 	// defining the current task
-	var currentTask = $(this).children('span');
+//  	// defining the current task
+// 	var currentTask = $(this).children('span');
 
-	// toggling its stroked value with CSS class
- 	currentTask.toggleClass('stroked');
+// 	// toggling its stroked value with CSS class
+//  	currentTask.toggleClass('stroked');
 
-	// TASK IS DONE i.e. true, therefore  toggle it and change this.done = false
- 	if (currentTask.attr('done') == "true") {
+// 	// TASK IS DONE i.e. true, therefore  toggle it and change this.done = false
+//  	if (currentTask.attr('done') == "true") {
 
- 		var id = $(currentTask).attr('id');
- 		var task = $(currentTask).text();
+//  		var id = $(currentTask).attr('id');
+//  		var task = $(currentTask).text();
 
- 		var update2;
- 		update2 = {
- 			"task" : task,
- 			"done" : "false"
- 		}
+//  		var update2;
+//  		update2 = {
+//  			"task" : task,
+//  			"done" : "false"
+//  		}
 
-		$.ajax({
-			url: '/api/todos/' + id,
-			type: 'PUT',
-			data: update2,
-			success: function(todoData) {
-				console.log('updated!');
-				displayTodos(todoData.creator);
-			}
-		});
-	 	console.log('Updated done status to False');
- 	}
+// 		$.ajax({
+// 			url: '/api/todos/' + id,
+// 			type: 'PUT',
+// 			data: update2,
+// 			success: function(todoData) {
+// 				console.log('updated!');
+// 				displayTodos(todoData.creator);
+// 			}
+// 		});
+// 	 	console.log('Updated done status to False');
+//  	}
 
 
-// TASK IS NOT DONE i.e. false, therefore toggle it and change this.done = true
- 	else {	
+// // TASK IS NOT DONE i.e. false, therefore toggle it and change this.done = true
+//  	else {	
 
- 		var done = $(currentTask).attr('done');
- 		var task = $(currentTask).text();
- 		var id = $(currentTask).attr('id');
+//  		var done = $(currentTask).attr('done');
+//  		var task = $(currentTask).text();
+//  		var id = $(currentTask).attr('id');
  	
- 		var update2;
- 		update2 = {
- 			"task" : task,
- 			"done" : "true"
- 		}
+//  		var update2;
+//  		update2 = {
+//  			"task" : task,
+//  			"done" : "true"
+//  		}
 
-		$.ajax({
-			url: '/api/todos/' + id,
-			type: 'PUT',
-			data: update2,
-			success: function(todoData) {
-				console.log('updated!');
-				 displayTodos(todoData.creator);
-			}
-		});
+// 		$.ajax({
+// 			url: '/api/todos/' + id,
+// 			type: 'PUT',
+// 			data: update2,
+// 			success: function(todoData) {
+// 				console.log('updated!');
+// 				 displayTodos(todoData.creator);
+// 			}
+// 		});
 
-	 	console.log('Updated done status to True');
+// 	 	console.log('Updated done status to True');
 
- 		}
+//  		}
  	
-	});
+// 	});
 
-// displayTodos();
-});	
+// // displayTodos();
+// });	

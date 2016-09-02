@@ -26,40 +26,63 @@
 
 
 	<!-- display Todos is called as soon as page loads using EJS 'user' variable passed in from the server-->
-	<body onload="displayTodos('<%= user %>')" background="http://wallpapercave.com/wp/GPX49yQ.png">
+	<body onload="displayTodos('<%= user %>')">
 
 
 		<!-- Jumbotron title header -->
 		<div class = "container">
 		   <!-- <div class = "jumbotron" style="text-align:center;"> -->
-		      <h1> Simple Todo</h1> 
-	<img src="http://images.musictimes.com/data/images/full/16566/cartman-brahhhhhh.jpg" alt="Mountain View" style="width:304px;height:228px;">
-		      <p>	 Hello, <%= username %>. <br>
-			 Welcome to your todo list.  </p>
-		   <!-- </div> -->
-		</div>
+		      <!-- <h1> Simple Todo</h1>  -->
+		      <br><br> 
+	<img src="http://horriblesubs.info/images/b/rezero_banner.jpg" alt="Re:Zero Banner" class= "img-responsive">
 
-		<!-- Log out button -->
-   		<div class="page-header text-center">
-        	<a href="/logout" class="btn btn-default btn-sm">Logout</a>
-   		</div>
+	<br>
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default" style="border-radius:0px; border-color:transparent; background-color:transparent;">
+        <!-- <div class="container-fluid"> -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"> Welcome to your todo list,  <%= username %> </a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+           <!--  <ul class="nav navbar-nav">
+              <li class="active"><a href="/profile">Home</a></li>
+              </li>
+            </ul> -->
+            <ul class="nav navbar-nav navbar-right">
+             
+              <li><a href="/login/"> Login </a></li>
+              <li><a href="/logout"> Logout </a></li>
+             
+            </ul>
+          </div><!--/.nav-collapse -->
+  <!--       </div>/.container-fluid  -->
+      </nav>
+
 
 
 		<!-- todo creation input box  -->
 		<div class='mid'>
-		<h2> Create a todo here !! </h2>
-			 <form onSubmit="return false">
+		<h2 style="display:inline"> Your Todos </h2>
+		
+		<form style="display:inline; margin-bottom:0px; margin-left: 200px; " onSubmit="return false">
 
 				<!-- input box -->
-				<input style="margin-left: 175px;" name="task" placeholder="add new todo" >
+				<input  name="task" placeholder="add new todo" >
 
 				<!-- (hidden) passing in a creator property for the post request and giving it the value of the logged in user. This is needed to give the creator info for when creating a new Todo. -->		
-				<input style="margin-left: 175px; display: none" name="creator" value="<%= user %>" >		
+				<input style=" display: none" name="creator" value="<%= user %>" >		
 
 				<!--can we do this better? by not passing in password in order to update ||| fine for now  -->
 				<button type="button" onclick="submitTodo('<%= user %>')" class="btn btn-success btn-sm"> Create </button>
 
 			</form>
+			<hr>
 		</div>
 
 		<!-- the actual list of todos -->
